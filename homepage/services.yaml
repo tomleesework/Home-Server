@@ -13,6 +13,8 @@
     - Radarr:
         href: http://192.168.0.50:7878
         description: Films
+        server: my-docker
+        container: radarr
         widget:
           type: radarr
           url: http://192.168.0.50:7878
@@ -20,6 +22,8 @@
     - Sonarr:
         href: http://192.168.0.50:8989
         description: TV Shows
+        server: my-docker
+        container: sonarr
         widget:
           type: sonarr
           url: http://192.168.0.50:8989
@@ -27,6 +31,8 @@
     - Lidarr:
         href: http://192.168.0.50:8686
         description: Music
+        server: my-docker
+        container: lidarr
         widget:
           type: lidarr
           url: http://192.168.0.50:8686
@@ -34,6 +40,8 @@
     - Prowlarr:
         href: http://192.168.0.50:9696
         description: Indexer manager
+        server: my-docker
+        container: pihole
         widget:
           type: prowlarr
           url: http://192.168.0.50:9696
@@ -43,6 +51,8 @@
     - Pi-hole:
         href: http://192.168.0.50:8080/admin
         description: Ad blocking
+        server: my-docker
+        container: netdata
         widget:
           type: pihole
           url: http://192.168.0.50:8080
