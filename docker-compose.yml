@@ -1,0 +1,127 @@
+services:
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=Europe/London
+    volumes:
+      - ./radarr:/config
+      - /srv/media:/media
+      - /srv/downloads:/downloads
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=Europe/London
+    volumes:
+      - ./sonarr:/config
+      - /srv/media:/media
+      - /srv/downloads:/downloads
+    ports:
+      - 8989:8989
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=Europe/London
+    volumes:
+      - ./prowlarr:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+
+  lidarr:
+    image: lscr.io/linuxserver/lidarr:latest
+    container_name: lidarr
+    environment:
+      - PUID=1000
+      - PGID=1001
+      - TZ=Europe/London
+    volumes:
+      - ./lidarr:/config
+      - /srv/media:/media
+      - /srv/downloads:/downloads
+    ports:
+      - 8686:8686
+    restart: unless-stopped
+
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    environment:
+      - TZ=Europe/London
+      - FTLCONF_webserver_api_password=${PIHOLE_PASSWORD}
+      - FTLCONF_dns_listeningMode=all
+    volumes:
+      - ./pihole/etc-pihole:/etc/pihole
+    ports:
+      - "192.168.0.50:53:53/tcp"
+      - "192.168.0.50:53:53/udp"
+      - "8080:80/tcp"
+    restart: unless-stopped
+
+  netdata:
+    image: netdata/netdata:latest
+    container_name: netdata
+    hostname: leesesrv-01
+    pid: host
+    network_mode: host
+    restart: unless-stopped
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - ./netdata/config:/etc/netdata
+      - ./netdata/lib:/var/lib/netdata
+      - ./netdata/cache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    environment:
+      - TZ=Europe/London
+      - SIGNUPS_ALLOWED=true
+    volumes:
+      - ./vaultwarden:/data
+    ports:
+      - 8222:80
+    restart: unless-stopped
+
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    environment:
+      - TZ=Europe/London
+      - HOMEPAGE_ALLOWED_HOSTS=192.168.0.50:3000
+      - HOMEPAGE_VAR_JELLYFIN_KEY=${JELLYFIN_KEY}
+      - HOMEPAGE_VAR_RADARR_KEY=${RADARR_KEY}
+      - HOMEPAGE_VAR_SONARR_KEY=${SONARR_KEY}
+      - HOMEPAGE_VAR_LIDARR_KEY=${LIDARR_KEY}
+      - HOMEPAGE_VAR_PROWLARR_KEY=${PROWLARR_KEY}
+      - HOMEPAGE_VAR_PIHOLE_PASSWORD=${PIHOLE_PASSWORD}
+    volumes:
+      - ./homepage:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 3000:3000
+    restart: unless-stopped

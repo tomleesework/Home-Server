@@ -1,0 +1,16 @@
+# Secrets - never commit these
+.env
+*/config/
+pihole/
+vaultwarden/
+*.key
+*.pem
+
+# Container data directories (not config, just runtime data)
+radarr/
+sonarr/
+lidarr/
+prowlarr/
+netdata/
+#Homepage - Track config, ignore logs
+homepage/logs/

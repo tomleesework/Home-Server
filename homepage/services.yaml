@@ -1,0 +1,56 @@
+- Media:
+    - Jellyfin:
+        href: http://192.168.0.50:8096
+        description: Media streaming
+        siteMonitor: http://192.168.0.50:8096
+        widget:
+          type: jellyfin
+          url: http://192.168.0.50:8096
+          key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
+          enableBlocks: true
+
+- Media Automation:
+    - Radarr:
+        href: http://192.168.0.50:7878
+        description: Films
+        widget:
+          type: radarr
+          url: http://192.168.0.50:7878
+          key: {{HOMEPAGE_VAR_RADARR_KEY}}
+    - Sonarr:
+        href: http://192.168.0.50:8989
+        description: TV Shows
+        widget:
+          type: sonarr
+          url: http://192.168.0.50:8989
+          key: {{HOMEPAGE_VAR_SONARR_KEY}}
+    - Lidarr:
+        href: http://192.168.0.50:8686
+        description: Music
+        widget:
+          type: lidarr
+          url: http://192.168.0.50:8686
+          key: {{HOMEPAGE_VAR_LIDARR_KEY}}
+    - Prowlarr:
+        href: http://192.168.0.50:9696
+        description: Indexer manager
+        widget:
+          type: prowlarr
+          url: http://192.168.0.50:9696
+          key: {{HOMEPAGE_VAR_PROWLARR_KEY}}
+
+- Network & System:
+    - Pi-hole:
+        href: http://192.168.0.50:8080/admin
+        description: Ad blocking
+        widget:
+          type: pihole
+          url: http://192.168.0.50:8080
+          version: 6
+          key: {{HOMEPAGE_VAR_PIHOLE_PASSWORD}}
+    - Netdata:
+        href: http://192.168.0.50:19999
+        description: Monitoring
+        widget:
+          type: netdata
+          url: http://192.168.0.50:19999
